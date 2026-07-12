@@ -1,11 +1,128 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>My Personal Page</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mateo Ceballos Querol — embedded systems engineer working across automotive technology, electronics, simulation, and software.">
+  <title>Mateo Ceballos Querol | Embedded Systems</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Welcome to My GitHub Page!</h1>
-  <p>This is my personal website hosted on GitHub Pages.</p>
-  <b>WORK IN PROGRESS.</b>
+  <header class="site-header">
+    <nav class="nav container" aria-label="Main navigation">
+      <a class="logo" href="#top">MCQ<span>.</span></a>
+      <div class="nav-links">
+        <a href="#projects">Projects</a>
+        <a href="#about">About</a>
+        <a class="nav-github" href="https://github.com/mcquerol">GitHub ↗</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero container">
+      <div>
+        <p class="eyebrow">Embedded systems · Automotive · Simulation</p>
+        <h1>Building where hardware meets software.</h1>
+        <p class="hero-copy">
+          Hi, I’m Mateo—an electrical engineer and Embedded Systems master’s
+          student interested in automotive technology, robotics, electronics,
+          simulation, and the systems that connect them.
+        </p>
+        <div class="actions">
+          <a class="button" href="#projects">Explore my work</a>
+          <a class="button secondary" href="https://github.com/mcquerol">View GitHub</a>
+        </div>
+      </div>
+
+      <aside class="hero-panel" aria-label="Current focus">
+        <span class="status">Currently building and documenting</span>
+        <h2>Current focus</h2>
+        <ul class="focus-list">
+          <li>Embedded Linux and hardware interfaces</li>
+          <li>Automotive sensing and GMSL communication</li>
+          <li>ADAS development with CARLA simulation</li>
+          <li>FPGA, C/C++, and electronics projects</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="section container" id="projects">
+      <div class="section-heading">
+        <p class="eyebrow">Selected work</p>
+        <h2>Projects and experiments</h2>
+        <p>
+          This portfolio is growing alongside the projects. Detailed technical
+          notes and MkDocs documentation will be linked here as they become ready.
+        </p>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <span class="tag">ADAS · CARLA</span>
+          <h3>ADAS Simulation</h3>
+          <p>
+            Experiments with vehicle control, lane detection, adaptive cruise
+            concepts, maps, and autonomous-driving workflows in CARLA.
+          </p>
+          <a class="card-link" href="https://github.com/mcquerol?tab=repositories">Documentation coming soon →</a>
+        </article>
+
+        <article class="card">
+          <span class="tag">Embedded Linux · SPI</span>
+          <h3>Automotive Sensor Interface</h3>
+          <p>
+            Work involving embedded Linux platforms, SPI, GMSL communication,
+            device trees, and the integration of automotive sensing hardware.
+          </p>
+          <a class="card-link" href="https://github.com/mcquerol?tab=repositories">Project overview coming soon →</a>
+        </article>
+
+        <article class="card">
+          <span class="tag">C++ · CAN</span>
+          <h3>CAN Sniffer</h3>
+          <p>
+            A C++ project for working with virtual CAN traffic and decoding
+            automotive signals such as motor speed and control data.
+          </p>
+          <a class="card-link" href="https://github.com/mcquerol?tab=repositories">Browse repositories →</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section container" id="about">
+      <div class="about">
+        <div>
+          <p class="eyebrow">About me</p>
+          <h2>Curious by construction.</h2>
+        </div>
+        <div class="about-copy">
+          <p>
+            I have a first-class bachelor’s degree in Electrical and Electronic
+            Engineering and I’m currently completing a master’s focused on
+            embedded systems. I enjoy understanding technology across the whole
+            stack—from electronics and communication buses to Linux, C++, FPGA
+            logic, and simulation.
+          </p>
+          <p>
+            Beyond engineering, I’m interested in robotics, space, game and mod
+            development, drawing, guitar, and building things simply because I
+            want to know how they work.
+          </p>
+          <div class="actions">
+            <a class="button secondary" href="https://github.com/mcquerol">Find me on GitHub</a>
+            <a class="button secondary" href="wip.html">Original WIP page</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-content container">
+      <p>© 2026 Mateo Ceballos Querol</p>
+      <p>Designed and built one step at a time.</p>
+    </div>
+  </footer>
 </body>
 </html>
