@@ -1,0 +1,6 @@
+projects:
+  - name: StudentDB with POCO
+    repository: mcquerol/studentdb-poco-cpp
+
+  - name: Optional APT C++ Exercises
+    repository: mcquerol/optional-exercises-apt-cpp
