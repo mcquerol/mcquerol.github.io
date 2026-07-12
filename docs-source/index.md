@@ -35,4 +35,4 @@ This is where I collect the deeper explanations behind the projects on my [portf
 </div>
 
 !!! note "Documentation in progress"
-    This site is a living engineering notebook. Pages will become more detailed as projects are整理ed, verified, and documented.
+    This site is a living engineering notebook. Pages will become more detailed as projects areorganized, verified, and documented.
