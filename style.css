@@ -328,3 +328,64 @@ h3 {
     flex-direction: column;
   }
 }
+
+
+/* Projects archive */
+
+.nav-links a.active {
+  color: var(--text);
+}
+
+.page-hero {
+  padding-block: 7rem 5rem;
+}
+
+.page-hero h1 {
+  max-width: 12ch;
+}
+
+.project-group {
+  padding-block: 2rem 5rem;
+}
+
+.group-heading {
+  max-width: 48rem;
+  margin-bottom: 2rem;
+}
+
+.group-heading h2 {
+  margin-bottom: 0;
+}
+
+.featured-card {
+  background:
+    linear-gradient(145deg, rgba(97, 218, 251, 0.08), transparent 60%),
+    rgba(16, 29, 48, 0.76);
+}
+
+.card-state {
+  margin-top: auto;
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-weight: 650;
+}
+
+.section-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.project-note {
+  margin-top: 1rem;
+}
+
+@media (max-width: 800px) {
+  .page-hero {
+    padding-block: 5rem 3rem;
+  }
+
+  .project-group {
+    padding-block: 2rem 3.5rem;
+  }
+}
