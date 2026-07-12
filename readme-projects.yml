@@ -1,3 +1,5 @@
+category: C++ Coursework
+
 projects:
   - name: StudentDB with POCO
     repository: mcquerol/studentdb-poco-cpp
