@@ -108,8 +108,9 @@ def main() -> int:
             "\n".join(overview) + "\n", encoding="utf-8"
         )
 
+        category = project_data.get("category", "Repository READMEs")
         project_nav = {
-            "Repository READMEs": [
+            category: [
                 {"Overview": "repositories/index.md"},
                 *[{item["name"]: item["path"]} for item in imported],
             ]
