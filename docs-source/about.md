@@ -2,7 +2,7 @@
 
 I’m Mateo Ceballos Querol, an electrical engineer and Embedded Systems master’s student interested in automotive technology, robotics, electronics, simulation, and the systems that connect them.
 
-This documentation complements my main [portfolio](../) and [project archive](../projects.html). The portfolio gives a quick overview; these pages are for the technical detail.
+This documentation complements my main [portfolio](https://mcquerol.github.io/) and [project archive](https://mcquerol.github.io/projects.html). The portfolio gives a quick overview; these pages are for the technical detail.
 
 ## How the site is organised
 
