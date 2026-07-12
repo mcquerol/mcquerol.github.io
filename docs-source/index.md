@@ -2,7 +2,7 @@
 
 Welcome to my technical documentation.
 
-This is where I collect the deeper explanations behind the projects on my [portfolio](../) — design decisions, experiments, setup instructions, results, and lessons learned.
+This is where I collect the deeper explanations behind the projects on my [portfolio](https://mcquerol.github.io/) — design decisions, experiments, setup instructions, results, and lessons learned.
 
 ## What you'll find here
 
