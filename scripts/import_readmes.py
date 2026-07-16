@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
-"""Import public repository READMEs into a temporary MkDocs build."""
+"""Import READMEs from all public repositories into a temporary MkDocs build."""
 
 from __future__ import annotations
 
+import json
 import re
 import shutil
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -17,28 +19,55 @@ PROJECTS_FILE = ROOT / "readme-projects.yml"
 BASE_CONFIG = ROOT / "mkdocs.yml"
 GENERATED_CONFIG = ROOT / "mkdocs.generated.yml"
 OUTPUT_DIR = ROOT / "docs-source" / "repositories"
+USER_AGENT = "mcquerol-github-pages-readme-importer"
 
 
-def fetch_readme(repository: str) -> str | None:
-    url = f"https://api.github.com/repos/{repository}/readme"
-    request = urllib.request.Request(
-        url,
-        headers={
-            "Accept": "application/vnd.github.raw+json",
-            "User-Agent": "mcquerol-github-pages-readme-importer",
-        },
-    )
+def request_bytes(url: str) -> bytes | None:
+    request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     try:
-        with urllib.request.urlopen(request, timeout=20) as response:
-            return response.read().decode("utf-8")
+        with urllib.request.urlopen(request, timeout=25) as response:
+            return response.read()
     except urllib.error.HTTPError as error:
         if error.code == 404:
-            print(f"Skipping {repository}: no README found.")
             return None
         raise
 
 
-def make_relative_links_absolute(markdown: str, repository: str) -> str:
+def list_repositories(owner: str) -> list[dict]:
+    repositories: list[dict] = []
+    page = 1
+    while True:
+        query = urllib.parse.urlencode(
+            {"per_page": 100, "page": page, "sort": "full_name"}
+        )
+        payload = request_bytes(
+            f"https://api.github.com/users/{owner}/repos?{query}"
+        )
+        if payload is None:
+            raise RuntimeError(f"GitHub user not found: {owner}")
+        batch = json.loads(payload.decode("utf-8"))
+        repositories.extend(batch)
+        if len(batch) < 100:
+            break
+        page += 1
+    return repositories
+
+
+def fetch_readme(repository: str, default_branch: str) -> str | None:
+    for filename in ("README.md", "README.MD", "readme.md", "Readme.md"):
+        url = (
+            f"https://raw.githubusercontent.com/{repository}/"
+            f"{urllib.parse.quote(default_branch, safe='')}/{filename}"
+        )
+        payload = request_bytes(url)
+        if payload is not None:
+            return payload.decode("utf-8")
+    return None
+
+
+def make_relative_links_absolute(
+    markdown: str, repository: str, default_branch: str
+) -> str:
     def replace(match: re.Match[str]) -> str:
         prefix, target, suffix = match.groups()
         clean_target = target.strip()
@@ -52,64 +81,79 @@ def make_relative_links_absolute(markdown: str, repository: str) -> str:
         path, *fragment = clean_target.split("#", 1)
         anchor = f"#{fragment[0]}" if fragment else ""
         if prefix.startswith("!"):
-            absolute = f"https://raw.githubusercontent.com/{repository}/HEAD/{path}{anchor}"
+            absolute = (
+                f"https://raw.githubusercontent.com/{repository}/"
+                f"{default_branch}/{path}{anchor}"
+            )
         else:
-            absolute = f"https://github.com/{repository}/blob/HEAD/{path}{anchor}"
+            absolute = (
+                f"https://github.com/{repository}/blob/"
+                f"{default_branch}/{path}{anchor}"
+            )
         return f"{prefix}{absolute}{suffix}"
 
     return re.sub(r"(!?\[[^\]]*\]\()([^\s)]+)(\))", replace, markdown)
 
 
 def main() -> int:
-    project_data = yaml.safe_load(PROJECTS_FILE.read_text(encoding="utf-8"))
+    settings = yaml.safe_load(PROJECTS_FILE.read_text(encoding="utf-8"))
     config = yaml.safe_load(BASE_CONFIG.read_text(encoding="utf-8"))
+    owner = settings.get("owner", "mcquerol")
+    category = settings.get("category", "Repositories")
+    include_forks = settings.get("include_forks", False)
+    excluded = set(settings.get("exclude", []))
 
     shutil.rmtree(OUTPUT_DIR, ignore_errors=True)
     imported: list[dict[str, str]] = []
 
-    for project in project_data.get("projects", []):
-        name = project["name"]
-        repository = project["repository"]
-        readme = fetch_readme(repository)
+    repositories = list_repositories(owner)
+    for repository_data in repositories:
+        name = repository_data["name"]
+        if name in excluded:
+            continue
+        if repository_data.get("fork") and not include_forks:
+            continue
+
+        full_name = repository_data["full_name"]
+        default_branch = repository_data.get("default_branch", "main")
+        readme = fetch_readme(full_name, default_branch)
         if readme is None:
+            print(f"Skipping {full_name}: no README found.")
             continue
 
         OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-        slug = repository.split("/", 1)[1]
-        page_path = OUTPUT_DIR / f"{slug}.md"
-        source_url = f"https://github.com/{repository}"
+        page_path = OUTPUT_DIR / f"{name}.md"
+        source_url = repository_data["html_url"]
         content = (
-            f"[View the source repository on GitHub]({source_url}){{ .md-button }}\n\n"
-            + make_relative_links_absolute(readme, repository)
+            f"[View the source repository on GitHub]({source_url})"
+            "{ .md-button }\n\n"
+            + make_relative_links_absolute(readme, full_name, default_branch)
         )
         page_path.write_text(content, encoding="utf-8")
         imported.append(
-            {
-                "name": name,
-                "path": f"repositories/{slug}.md",
-                "repository": repository,
-            }
+            {"name": name, "path": f"repositories/{name}.md", "url": source_url}
         )
-        print(f"Imported README from {repository}.")
+        print(f"Imported README from {full_name}.")
+
+    imported.sort(key=lambda item: item["name"].lower())
 
     if imported:
         overview = [
-            "# Repository documentation",
+            "# Repositories",
             "",
-            "These pages are generated from the latest README in each project repository.",
+            "These pages are generated from the latest README in each public repository.",
             "",
         ]
-        for project in imported:
+        for item in imported:
             overview.append(
-                f"- [{project['name']}]({Path(project['path']).name}) "
-                f"— [{project['repository']}](https://github.com/{project['repository']})"
+                f"- [{item['name']}]({Path(item['path']).name}) "
+                f"— [GitHub]({item['url']})"
             )
         (OUTPUT_DIR / "index.md").write_text(
             "\n".join(overview) + "\n", encoding="utf-8"
         )
 
-        category = project_data.get("category", "Repository READMEs")
-        project_nav = {
+        repository_nav = {
             category: [
                 {"Overview": "repositories/index.md"},
                 *[{item["name"]: item["path"]} for item in imported],
@@ -120,7 +164,7 @@ def main() -> int:
             (index for index, item in enumerate(nav) if "About" in item),
             len(nav),
         )
-        nav.insert(about_index, project_nav)
+        nav.insert(about_index, repository_nav)
 
     GENERATED_CONFIG.write_text(
         yaml.safe_dump(config, sort_keys=False, allow_unicode=True),
