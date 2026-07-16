@@ -1,38 +1,17 @@
-# Engineering notes
+# Project documentation
 
-Welcome to my technical documentation.
+This site collects the README documentation from my public GitHub repositories in one searchable place.
 
-This is where I collect the deeper explanations behind the projects on my [portfolio](https://mcquerol.github.io/) — design decisions, experiments, setup instructions, results, and lessons learned.
+## Browse the projects
 
-## What you'll find here
+Open **Repositories** in the navigation menu to see every public repository that currently has a README. The list and its pages are generated automatically during deployment.
 
-<div class="grid cards" markdown>
+[Browse repository documentation](repositories/){ .md-button .md-button--primary }
+[Return to my portfolio](https://mcquerol.github.io/){ .md-button }
 
--   :material-car-connected:{ .lg .middle } **Automotive & ADAS**
+## How it stays updated
 
-    ---
+The documentation is rebuilt from the current repository READMEs whenever the GitHub Pages workflow runs. Repositories without a README are omitted automatically.
 
-    CARLA simulation, vehicle control, sensing, CAN, SPI, and GMSL communication.
-
-    [:octicons-arrow-right-24: Explore automotive work](automotive/)
-
--   :material-memory:{ .lg .middle } **Embedded systems**
-
-    ---
-
-    Digital logic, FPGA work, embedded Linux, processors, and hardware interfaces.
-
-    [:octicons-arrow-right-24: Explore embedded systems](embedded/)
-
--   :material-sine-wave:{ .lg .middle } **Software & electronics**
-
-    ---
-
-    C++, circuit modelling, engineering tools, and electronics experiments.
-
-    [:octicons-arrow-right-24: Explore software and electronics](software/)
-
-</div>
-
-!!! note "Documentation in progress"
-    This site is a living engineering notebook. Pages will become more detailed as projects areorganized, verified, and documented.
+!!! note
+    This documentation is a work in progress. Individual READMEs will become more detailed as the projects are reviewed and documented.
