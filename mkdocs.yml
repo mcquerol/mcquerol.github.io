@@ -36,16 +36,6 @@ theme:
 
 nav:
   - Home: index.md
-  - Automotive & ADAS:
-      - Overview: automotive/index.md
-      - CARLA Simulation: automotive/carla.md
-      - GMSL Sensor Interface: automotive/gmsl.md
-  - Embedded Systems:
-      - Overview: embedded/index.md
-      - 8-bit CPU: embedded/cpu.md
-  - Software & Electronics:
-      - Overview: software/index.md
-      - Resistor Networks: software/resistor-networks.md
   - About: about.md
 
 plugins:
