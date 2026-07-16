@@ -539,3 +539,85 @@ h3 {
     gap: 0.7rem;
   }
 }
+
+
+/* Branded profile links */
+
+.profile-links a {
+  min-height: 5.6rem;
+  display: grid;
+  grid-template-columns: 2.8rem 1fr auto;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.profile-icon {
+  width: 2.8rem;
+  height: 2.8rem;
+  display: grid;
+  place-items: center;
+  border-radius: 0.75rem;
+}
+
+.profile-icon svg {
+  width: 1.45rem;
+  height: 1.45rem;
+  fill: currentColor;
+}
+
+.github-icon {
+  color: #ffffff;
+  background: #24292f;
+}
+
+.linkedin-icon {
+  color: #ffffff;
+  background: #0a66c2;
+}
+
+.researchgate-icon {
+  color: #073b36;
+  background: #00ccbb;
+}
+
+.stackoverflow-icon {
+  color: #ffffff;
+  background: #f48024;
+}
+
+.rg-mark {
+  font-family: Arial, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.08em;
+}
+
+.rg-mark sup {
+  font-size: 0.55em;
+}
+
+.profile-text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.profile-text strong {
+  font-size: 1rem;
+}
+
+.profile-text small {
+  color: var(--muted);
+}
+
+.profile-arrow {
+  color: var(--accent);
+  font-size: 1.1rem;
+}
+
+@media (max-width: 520px) {
+  .profile-links a {
+    grid-template-columns: 2.8rem 1fr auto;
+  }
+}
