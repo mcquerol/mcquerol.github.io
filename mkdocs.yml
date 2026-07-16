@@ -1,5 +1,5 @@
-site_name: Mateo's Engineering Notes
-site_description: Technical notes and project documentation by Mateo Ceballos Querol
+site_name: mcquerol | Projects
+site_description: Repository documentation and project READMEs by Mateo Ceballos Querol
 site_url: https://mcquerol.github.io/docs/
 repo_url: https://github.com/mcquerol/mcquerol.github.io
 repo_name: mcquerol/mcquerol.github.io
@@ -35,7 +35,7 @@ theme:
     - content.code.copy
 
 nav:
-  - Home: index.md
+  - Overview: index.md
   - About: about.md
 
 plugins:
