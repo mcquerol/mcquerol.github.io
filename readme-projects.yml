@@ -1,8 +1,6 @@
-category: C++ Coursework
+owner: mcquerol
+category: Repositories
+include_forks: false
 
-projects:
-  - name: StudentDB with POCO
-    repository: mcquerol/studentdb-poco-cpp
-
-  - name: Optional APT C++ Exercises
-    repository: mcquerol/optional-exercises-apt-cpp
+exclude:
+  - mcquerol.github.io
