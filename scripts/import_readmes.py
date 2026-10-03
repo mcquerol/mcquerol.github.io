@@ -99,7 +99,6 @@ def main() -> int:
     settings = yaml.safe_load(PROJECTS_FILE.read_text(encoding="utf-8"))
     config = yaml.safe_load(BASE_CONFIG.read_text(encoding="utf-8"))
     owner = settings.get("owner", "mcquerol")
-    category = settings.get("category", "Repositories")
     include_forks = settings.get("include_forks", False)
     excluded = set(settings.get("exclude", []))
 
@@ -138,33 +137,13 @@ def main() -> int:
     imported.sort(key=lambda item: item["name"].lower())
 
     if imported:
-        overview = [
-            "# Repositories",
-            "",
-            "These pages are generated from the latest README in each public repository.",
-            "",
+        # Keep the sidebar deliberately flat: one repository per entry.
+        # Clicking an entry renders that repository's README in the content pane.
+        config["nav"] = [
+            {item["name"]: item["path"]}
+            for item in imported
         ]
-        for item in imported:
-            overview.append(
-                f"- [{item['name']}]({Path(item['path']).name}) "
-                f"— [GitHub]({item['url']})"
-            )
-        (OUTPUT_DIR / "index.md").write_text(
-            "\n".join(overview) + "\n", encoding="utf-8"
-        )
 
-        repository_nav = {
-            category: [
-                {"Overview": "repositories/index.md"},
-                *[{item["name"]: item["path"]} for item in imported],
-            ]
-        }
-        nav = config.setdefault("nav", [])
-        about_index = next(
-            (index for index, item in enumerate(nav) if "About" in item),
-            len(nav),
-        )
-        nav.insert(about_index, repository_nav)
 
     GENERATED_CONFIG.write_text(
         yaml.safe_dump(config, sort_keys=False, allow_unicode=True),
